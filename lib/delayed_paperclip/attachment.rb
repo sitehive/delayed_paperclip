@@ -78,12 +78,13 @@ module DelayedPaperclip
 
     private
 
+    # Update processing to false. Using +unscoped+ here as we do not want to get hung up on any
+    # +default_scope+ defined.
     def update_processing_column
       if instance.respond_to?(:"#{name}_processing?")
         instance.send("#{name}_processing=", false)
         instance.class.unscoped.where(instance.class.primary_key => instance.id).update_all({ "#{name}_processing" => false })
       end
     end
-
   end
 end
